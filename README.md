@@ -1,119 +1,162 @@
-# harness-from-scratch
+# Harness From Scratch
 
-A hands-on learning project that builds an AI agent harness from scratch, step by step, using the Anthropic SDK.
+Harness From Scratch is a hands-on repository for learning how to build real agent harnesses, and then applying those lessons to a full graduation project: `RepoPilot Harness`.
 
----
+It has two layers:
 
-## Project Overview
+- `agents/`: the 12 progressive lessons that explain the core mechanics of agent runtimes
+- `products/repopilot_harness/`: a real local-first engineering control plane built from those lessons
 
-Each `agents/sXX_*.py` file is a self-contained lesson that introduces one new concept on top of the previous one — from a bare agent loop all the way to a fully autonomous multi-agent team.
+## Why this repository exists
 
----
+Most agent demos stop at chat. This repository focuses on the harder part: execution infrastructure.
 
-## Directory Structure
+It shows how to go from:
 
-```
+`LLM call -> tool loop -> task system -> subagents -> background jobs -> protocols -> autonomous teammates -> isolated worktrees`
+
+to a product that can actually manage software delivery work.
+
+## What you will find here
+
+### 1. The 12-lesson learning track
+
+Each `agents/sXX_*.py` file introduces one capability in isolation so the harness architecture stays understandable.
+
+- `s01`: minimal agent loop
+- `s02`: tool use
+- `s03`: todo state
+- `s04`: subagents and context isolation
+- `s05`: skill loading
+- `s06`: context compaction
+- `s07`: durable task system
+- `s08`: background tasks
+- `s09`: agent teams
+- `s10`: team protocols
+- `s11`: autonomous teammates
+- `s12`: task-to-worktree isolation
+
+Course materials live under `docs/`, including:
+
+- `docs/course-outline-zh.md`
+- `docs/lesson-test-log-zh.md`
+- `docs/course-graduation-review-zh.md`
+- `docs/s08-background-tasks-guide-zh.md`
+- `docs/s09-agent-teams-guide-zh.md`
+- `docs/s10-team-protocols-guide-zh.md`
+- `docs/s11-autonomous-agents-guide-zh.md`
+- `docs/s12-worktree-task-isolation-guide-zh.md`
+
+### 2. The graduation project: RepoPilot Harness
+
+`RepoPilot Harness` is the practical culmination of the course.
+
+It turns a natural-language development mission into:
+
+`mission intake -> planning -> task graph -> isolated workspaces -> implementation execution -> validation -> delivery handoff`
+
+Current product capabilities include:
+
+- operator console UI
+- durable runs, tasks, jobs, workspaces, and events
+- approval / pause / retry flow
+- isolated implementation workspaces
+- direct LLM execution or external agent command execution
+- validation commands with persisted logs
+- run recovery after restart
+- file and artifact inspection in the UI
+
+See `products/repopilot_harness/README.md` for product details.
+
+## Repository structure
+
+```text
 .
-├── agents/                         # Agent lesson scripts
-│   ├── auth.py                     # Shared client factory (load_dotenv + Anthropic bootstrap)
-│   ├── s01_agent_loop.py           # Lesson 01: The smallest useful agent loop
-│   ├── s02_tool_use.py             # Lesson 02: Agent loop + tool dispatch
-│   ├── s03_todo_write.py           # Lesson 03: Tool dispatch + todo tracking
-│   ├── s04_subagent.py             # Lesson 04: Parent/child context isolation with a task tool
-│   ├── s05_skill_loading.py        # Lesson 05: On-demand skill loading
-│   ├── s06_context_compact.py      # Lesson 06: Three-layer context compaction
-│   ├── s07_task_system.py          # Lesson 07: Task tools with terminal-visible tracing
-│   ├── s08_background_tasks.py     # Lesson 08: Background command execution
-│   ├── s09_agent_teams.py          # Lesson 09: Persistent teammates with JSONL inboxes
-│   ├── s10_team_protocols.py       # Lesson 10: Structured request/response protocols
-│   └── s11_autonomous_agents.py    # Lesson 11: Autonomous teammates that find and claim work
-├── skills/                         # Loadable skill definitions (YAML/JSON)
-│   ├── agent-builder               # Skill: build new agents
-│   └── code-review                 # Skill: review code
-├── tests/                          # Pytest test suite
-│   ├── test_auth.py                # Unit tests for agents/auth.py
-│   ├── test_agents_smoke.py        # Smoke tests: all agent scripts exist and compile
-│   ├── test_s06_context_compact.py # Tests for context compaction logic
-│   ├── test_s07_task_system.py     # Tests for task system & tracing
-│   ├── test_s08_background_tasks.py# Tests for background task execution
-│   ├── test_s09_agent_teams.py     # Tests for agent team primitives
-│   ├── test_s10_team_protocols.py  # Tests for team protocols
-│   └── test_s11_autonomous_agents.py # Tests for autonomous agents
-├── requirements.txt                # Python dependencies
-└── conftest.py                     # Pytest fixtures shared across tests
+├── agents/                         # 12 lesson scripts + earlier console prototype
+├── docs/                           # Chinese course notes, plans, ADRs, demo writeups
+├── lesson3_demo/                   # Small standalone demo used in the course
+├── products/
+│   └── repopilot_harness/          # Graduation project: real harness product
+├── skills/                         # Loadable example skills
+├── tests/                          # Course-level pytest suite
+├── conftest.py
+├── pyproject.toml
+└── requirements.txt
 ```
 
----
+## Quick start
 
-## Environment Setup
+### 1. Create your environment file
 
-### 1. Required environment variables
-
-| Variable              | Required | Description                                            |
-|-----------------------|----------|--------------------------------------------------------|
-| `ANTHROPIC_API_KEY`   | ✅ Yes   | Your Anthropic API key                                 |
-| `MODEL_ID`            | ✅ Yes   | Model to use, e.g. `claude-opus-4-5`                  |
-| `ANTHROPIC_BASE_URL`  | ❌ No    | Custom base URL (e.g. local proxy). Omit for direct API use. |
-
-### 2. Create a `.env` file
-
-Copy and fill in the values:
+Create `.env` in the repository root:
 
 ```bash
-cp .env.example .env   # if .env.example exists, otherwise create .env manually
+cp .env.example .env
 ```
 
-`.env` contents:
+Then fill in at least:
 
+```dotenv
+ANTHROPIC_API_KEY=your_api_key
+MODEL_ID=claude-opus-4-1
+# Optional when using a compatible proxy endpoint
+ANTHROPIC_BASE_URL=
 ```
-ANTHROPIC_API_KEY=sk-ant-...
-MODEL_ID=claude-opus-4-5
-# ANTHROPIC_BASE_URL=http://localhost:9090   # optional, for local proxy
-```
 
-> **Never commit `.env` to version control.**
+Notes:
 
-### 3. Install dependencies
+- `.env` is intentionally ignored by git
+- if you use a third-party compatible endpoint, set `ANTHROPIC_BASE_URL`
+- direct LLM execution requires both `ANTHROPIC_API_KEY` and `MODEL_ID`
+
+### 2. Install dependencies
 
 ```bash
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
-If a `pyproject.toml` is present (after task 62e027cd is merged), install the `agents` package in editable mode instead:
+Or install in editable mode:
 
 ```bash
-pip install -e .
+python3 -m pip install -e .
 ```
 
----
+### 3. Run the lessons
 
-## Running Tests
+Start from lesson 1:
 
 ```bash
-pytest tests/ -x -q
+python3 agents/s01_agent_loop.py
 ```
 
-To run only the auth tests:
+Then continue upward lesson by lesson.
+
+### 4. Run the graduation project
 
 ```bash
-pytest tests/test_auth.py -v
+python3 products/repopilot_harness/backend/main.py
 ```
 
----
+Open `http://127.0.0.1:8877` in your browser.
 
-## Running a Single Example
+## Testing
+
+Run the lesson and product tests:
 
 ```bash
-python agents/s01_agent_loop.py
+python3 -m pytest tests products/repopilot_harness/tests -q
 ```
 
-Each script is self-contained and can be run directly. Start with `s01` and work your way up.
+Examples:
 
----
+```bash
+python3 -m pytest tests/test_s07_task_system.py -q
+python3 -m pytest products/repopilot_harness/tests/test_repopilot_harness_app.py -q
+```
 
-## Architecture: `agents/auth.py`
+## Configuration model
 
-`auth.py` is the shared client factory used by every agent module. It exposes a single function:
+The course lessons use `agents/auth.py` as the shared client bootstrap.
 
 ```python
 from agents.auth import make_client
@@ -121,15 +164,38 @@ from agents.auth import make_client
 client, MODEL = make_client()
 ```
 
-**What `make_client()` does:**
+That factory centralizes:
 
-1. Calls `load_dotenv(override=True)` so a `.env` file always wins over stale shell exports.
-2. When `ANTHROPIC_BASE_URL` is set (e.g. a local proxy or test harness), strips `ANTHROPIC_AUTH_TOKEN` from the environment to avoid credential conflicts with non-Anthropic hosts.
-3. Instantiates and returns an `Anthropic` client along with the `MODEL_ID` string, so callers can unpack both in one line.
+- `.env` loading
+- `MODEL_ID` lookup
+- optional `ANTHROPIC_BASE_URL`
+- compatible proxy safety handling when a custom base URL is set
 
-This centralises all auth boilerplate so individual agent scripts stay focused on their lesson's concept.
+The graduation project uses `products/repopilot_harness/backend/app/llm_client.py` for direct runtime execution and supports both:
 
----
+- `direct_llm`: RepoPilot directly calls the LLM API
+- `agent_command`: RepoPilot executes a real external coding agent command inside each workspace
+
+## Recommended reading order
+
+If you want the full learning path:
+
+1. `docs/course-outline-zh.md`
+2. `agents/s01_agent_loop.py` through `agents/s12_worktree_task_isolation.py`
+3. `docs/lesson-test-log-zh.md`
+4. `docs/course-graduation-review-zh.md`
+5. `products/repopilot_harness/README.md`
+
+## Project status
+
+This repository is not a toy chat wrapper. The current graduation project already supports real local task execution and real file outputs inside isolated workspaces.
+
+The next natural upgrades are:
+
+- richer execution policies and safety controls
+- diff review and merge workflows
+- stronger multi-agent protocol orchestration
+- better operator dashboards and replay tools
 
 ## License
 
