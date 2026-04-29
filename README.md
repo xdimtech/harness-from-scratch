@@ -55,6 +55,12 @@ It turns a natural-language development mission into:
 
 `mission intake -> planning -> task graph -> isolated workspaces -> implementation execution -> validation -> delivery handoff`
 
+### Demo preview
+
+Below is the current engineering console demo for `RepoPilot Harness`:
+
+![RepoPilot Harness demo console](docs/assets/demo.png)
+
 Current product capabilities include:
 
 - operator console UI

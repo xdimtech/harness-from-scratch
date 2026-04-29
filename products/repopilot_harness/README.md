@@ -6,6 +6,12 @@ Core flow:
 
 `mission intake -> planning -> task graph -> isolated workspaces -> implementation execution -> validation -> delivery handoff`
 
+## Demo snapshot
+
+Current console snapshot:
+
+![RepoPilot Harness demo console](../../docs/assets/demo.png)
+
 ## What the product does today
 
 - creates durable runs, tasks, jobs, workspaces, artifacts, and event history
