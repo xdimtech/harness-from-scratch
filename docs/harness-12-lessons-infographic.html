@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Harness Engineering for Real Agents - 12 节课知识点信息图</title>
+    <style>
+      :root {
+        --paper: #f4efe4;
+        --paper-strong: #efe6d3;
+        --ink: #14213d;
+        --ink-soft: #41506c;
+        --accent: #d95d39;
+        --accent-2: #2d728f;
+        --accent-3: #4f6d3a;
+        --line: rgba(20, 33, 61, 0.16);
+        --card: rgba(255, 251, 243, 0.86);
+        --shadow: 0 24px 60px rgba(20, 33, 61, 0.12);
+        --radius: 26px;
+        --max: 1380px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at 10% 18%, rgba(217, 93, 57, 0.14), transparent 20%),
+          radial-gradient(circle at 88% 12%, rgba(45, 114, 143, 0.18), transparent 18%),
+          radial-gradient(circle at 75% 78%, rgba(79, 109, 58, 0.12), transparent 18%),
+          linear-gradient(180deg, #f7f2e7 0%, #f0e6d1 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.18;
+        background-image:
+          linear-gradient(rgba(20, 33, 61, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(20, 33, 61, 0.03) 1px, transparent 1px);
+        background-size: 24px 24px;
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 80%);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(calc(100% - 48px), var(--max));
+        margin: 0 auto;
+        padding: 36px 0 80px;
+        position: relative;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, rgba(255, 252, 247, 0.92), rgba(249, 242, 227, 0.84));
+        border: 1px solid rgba(20, 33, 61, 0.08);
+        border-radius: 34px;
+        box-shadow: var(--shadow);
+        padding: 34px;
+        min-height: 340px;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        right: -80px;
+        top: -70px;
+        width: 320px;
+        height: 320px;
+        border-radius: 40px;
+        transform: rotate(28deg);
+        background: linear-gradient(135deg, rgba(217, 93, 57, 0.16), rgba(45, 114, 143, 0.08));
+        border: 1px solid rgba(20, 33, 61, 0.08);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(20, 33, 61, 0.06);
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+        gap: 28px;
+        position: relative;
+        z-index: 1;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      h1 {
+        margin-top: 18px;
+        font-size: clamp(2.6rem, 5vw, 5rem);
+        line-height: 0.95;
+        max-width: 10ch;
+      }
+
+      .hero p.lead {
+        max-width: 62ch;
+        margin: 18px 0 0;
+        font-size: 1.08rem;
+        line-height: 1.7;
+        color: var(--ink-soft);
+      }
+
+      .hero-stats {
+        align-self: end;
+        display: grid;
+        gap: 14px;
+      }
+
+      .stat-card,
+      .legend,
+      .graduate-card,
+      .lesson-card,
+      .summary-card {
+        background: var(--card);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(20, 33, 61, 0.08);
+        box-shadow: var(--shadow);
+      }
+
+      .stat-card {
+        border-radius: 26px;
+        padding: 22px;
+      }
+
+      .stat-card strong {
+        display: block;
+        font-size: 2.5rem;
+        font-family: "Iowan Old Style", serif;
+      }
+
+      .stat-card span {
+        display: block;
+        margin-top: 8px;
+        color: var(--ink-soft);
+        line-height: 1.6;
+      }
+
+      .legend {
+        margin-top: 16px;
+        border-radius: 24px;
+        padding: 16px 18px 18px;
+      }
+
+      .legend h3 {
+        font-size: 1rem;
+        margin-bottom: 14px;
+      }
+
+      .legend-row {
+        display: grid;
+        gap: 10px;
+      }
+
+      .legend-item {
+        display: grid;
+        grid-template-columns: 12px 1fr;
+        gap: 10px;
+        align-items: start;
+        font-size: 0.95rem;
+        color: var(--ink-soft);
+      }
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-top: 5px;
+      }
+
+      .phase-1 { background: var(--accent); }
+      .phase-2 { background: var(--accent-2); }
+      .phase-3 { background: var(--accent-3); }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 18px;
+        margin: 54px 0 22px;
+      }
+
+      .section-head p {
+        margin: 0;
+        color: var(--ink-soft);
+        max-width: 60ch;
+        line-height: 1.6;
+      }
+
+      .roadmap-shell {
+        position: relative;
+        border-radius: 34px;
+        padding: 28px;
+        background: linear-gradient(180deg, rgba(255, 250, 241, 0.74), rgba(248, 240, 224, 0.78));
+        border: 1px solid rgba(20, 33, 61, 0.08);
+        box-shadow: var(--shadow);
+      }
+
+      .roadmap-shell::before {
+        content: "";
+        position: absolute;
+        inset: 22px;
+        border-radius: 26px;
+        border: 1px dashed rgba(20, 33, 61, 0.1);
+        pointer-events: none;
+      }
+
+      .phase-ribbon {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .phase-pill {
+        padding: 12px 16px;
+        border-radius: 18px;
+        color: white;
+        min-height: 86px;
+      }
+
+      .phase-pill small {
+        display: block;
+        font-size: 0.78rem;
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+
+      .phase-pill strong {
+        display: block;
+        margin-top: 8px;
+        font-size: 1.05rem;
+      }
+
+      .phase-pill span {
+        display: block;
+        margin-top: 7px;
+        font-size: 0.92rem;
+        line-height: 1.45;
+        opacity: 0.9;
+      }
+
+      .roadmap {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 22px;
+        padding-top: 8px;
+      }
+
+      .roadmap::before,
+      .roadmap::after {
+        content: "";
+        position: absolute;
+        left: 11%;
+        right: 11%;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(217, 93, 57, 0.35), rgba(45, 114, 143, 0.3), rgba(79, 109, 58, 0.35));
+        z-index: 0;
+      }
+
+      .roadmap::before { top: 22.5%; }
+      .roadmap::after { top: 71%; }
+
+      .lesson-card {
+        position: relative;
+        z-index: 1;
+        border-radius: var(--radius);
+        padding: 18px 18px 16px;
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      }
+
+      .lesson-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 26px 64px rgba(20, 33, 61, 0.16);
+      }
+
+      .lesson-card[data-open="true"] {
+        border-color: rgba(20, 33, 61, 0.18);
+      }
+
+      .lesson-card::before {
+        content: "";
+        position: absolute;
+        inset: auto auto -14px 28px;
+        width: 3px;
+        height: 14px;
+        background: rgba(20, 33, 61, 0.14);
+      }
+
+      .lesson-card.end-row::before,
+      .lesson-card.last::before {
+        display: none;
+      }
+
+      .lesson-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .badge {
+        font-size: 0.78rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+      }
+
+      .phase-tag {
+        padding: 7px 10px;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: white;
+      }
+
+      .lesson-card h3 {
+        margin-top: 10px;
+        font-size: 1.35rem;
+      }
+
+      .lesson-sub {
+        margin-top: 6px;
+        color: var(--ink-soft);
+        font-size: 0.96rem;
+        line-height: 1.5;
+      }
+
+      .problem {
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--line);
+        font-size: 0.94rem;
+        line-height: 1.58;
+      }
+
+      .problem strong,
+      .detail-block strong,
+      .graduate-card strong,
+      .summary-card strong {
+        font-family: "Iowan Old Style", serif;
+        font-size: 1.02rem;
+      }
+
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .meta span {
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: rgba(20, 33, 61, 0.06);
+        color: var(--ink-soft);
+        font-size: 0.78rem;
+      }
+
+      .detail-block {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 220ms ease, margin-top 220ms ease;
+        margin-top: 0;
+      }
+
+      .lesson-card[data-open="true"] .detail-block {
+        grid-template-rows: 1fr;
+        margin-top: 14px;
+      }
+
+      .detail-inner {
+        overflow: hidden;
+      }
+
+      .detail-panel {
+        padding-top: 14px;
+        border-top: 1px solid var(--line);
+        display: grid;
+        gap: 12px;
+      }
+
+      .detail-panel p,
+      .detail-panel li {
+        color: var(--ink-soft);
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .detail-panel ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .toggle {
+        margin-top: 14px;
+        width: 100%;
+        border: 0;
+        background: none;
+        padding: 10px 0 0;
+        color: var(--ink);
+        cursor: pointer;
+        text-align: left;
+        font-weight: 600;
+        font-family: inherit;
+      }
+
+      .toggle span {
+        color: var(--ink-soft);
+        margin-left: 6px;
+      }
+
+      .graduate-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+        gap: 22px;
+        margin-top: 28px;
+      }
+
+      .graduate-card,
+      .summary-card {
+        border-radius: 30px;
+        padding: 26px;
+      }
+
+      .graduate-card p,
+      .summary-card p,
+      .summary-card li {
+        color: var(--ink-soft);
+        line-height: 1.7;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .summary-box {
+        padding: 16px;
+        border-radius: 20px;
+        background: rgba(20, 33, 61, 0.05);
+      }
+
+      .summary-box h4 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+        font-family: "Iowan Old Style", serif;
+      }
+
+      .footer-note {
+        margin-top: 20px;
+        color: var(--ink-soft);
+        font-size: 0.94rem;
+      }
+
+      @media (max-width: 1100px) {
+        .hero-grid,
+        .graduate-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .roadmap {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .roadmap::before,
+        .roadmap::after {
+          display: none;
+        }
+      }
+
+      @media (max-width: 740px) {
+        .page {
+          width: min(calc(100% - 24px), var(--max));
+          padding: 20px 0 50px;
+        }
+
+        .hero,
+        .roadmap-shell,
+        .graduate-card,
+        .summary-card {
+          padding: 20px;
+          border-radius: 24px;
+        }
+
+        h1 {
+          max-width: none;
+          font-size: 2.5rem;
+        }
+
+        .phase-ribbon,
+        .summary-grid,
+        .roadmap {
+          grid-template-columns: 1fr;
+        }
+
+        .lesson-card::before {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">Harness Atlas · 12 Lessons</div>
+            <h1>Harness Engineering for Real Agents</h1>
+            <p class="lead">
+              这不是一张普通课程目录，而是一张从 <strong>单个 agent loop</strong> 进化到
+              <strong>真实工程协作 runtime</strong> 的能力地图。12 节课的重点不是“会调 LLM”，而是
+              “会搭建一个能执行、能恢复、能协作、能隔离的 agent harness”。
+            </p>
+          </div>
+          <aside class="hero-stats">
+            <div class="stat-card">
+              <strong>12</strong>
+              <span>节课，从最小闭环到多 agent + worktree 隔离执行。</span>
+            </div>
+            <div class="legend">
+              <h3>如何阅读这张图</h3>
+              <div class="legend-row">
+                <div class="legend-item"><span class="dot phase-1"></span><span><strong>阶段 1</strong>：先让 agent 真正动起来。</span></div>
+                <div class="legend-item"><span class="dot phase-2"></span><span><strong>阶段 2</strong>：再让 runtime 可以长期、稳定地工作。</span></div>
+                <div class="legend-item"><span class="dot phase-3"></span><span><strong>阶段 3</strong>：最后做团队协作、协议治理和代码隔离。</span></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <div class="section-head">
+        <div>
+          <h2>12 节课能力进化路线</h2>
+          <p>
+            每个节点都回答四件事：这一课解决什么问题、引入了什么机制、产出了什么能力、为什么它是下一课的前提。点击卡片可以展开详细说明。
+          </p>
+        </div>
+      </div>
+
+      <section class="roadmap-shell">
+        <div class="phase-ribbon">
+          <div class="phase-pill phase-1">
+            <small>Stage 1</small>
+            <strong>最小可用 Agent</strong>
+            <span>Agent Loop → Tool Use → Todo → Subagent</span>
+          </div>
+          <div class="phase-pill phase-2">
+            <small>Stage 2</small>
+            <strong>让 Agent 能长期工作</strong>
+            <span>Skill → Compact → Task System → Background Tasks</span>
+          </div>
+          <div class="phase-pill phase-3">
+            <small>Stage 3</small>
+            <strong>多 Agent 协作与隔离执行</strong>
+            <span>Teams → Protocols → Autonomy → Worktree Isolation</span>
+          </div>
+        </div>
+
+        <div class="roadmap">
+          <article class="lesson-card" data-open="true">
+            <div class="lesson-top">
+              <span class="badge">S01</span>
+              <span class="phase-tag phase-1">Foundation</span>
+            </div>
+            <h3>The Agent Loop</h3>
+            <p class="lesson-sub">让模型第一次真正接入“外部世界”。</p>
+            <div class="problem"><strong>解决的问题：</strong>没有循环，模型就无法持续观察、行动、再观察。</div>
+            <div class="meta"><span>messages</span><span>tool_result 回灌</span><span>最小闭环</span></div>
+            <div class="detail-block">
+              <div class="detail-inner">
+                <div class="detail-panel">
+                  <p><strong>新增机制：</strong>基于 `stop_reason == tool_use` 的循环，让模型可以反复调用工具直到任务完成。</p>
+                  <p><strong>产出能力：</strong>agent 能用 `bash` 创建文件、看目录、读 git 状态，而不是只停留在回答层。</p>
+                  <p><strong>为什么重要：</strong>这是后面所有任务系统、子 agent、后台任务的底座。</p>
+                </div>
+              </div>
+            </div>
+            <button class="toggle" type="button">展开 / 收起<span>最小 runtime 心脏</span></button>
+          </article>
+
+          <article class="lesson-card">
+            <div class="lesson-top">
+              <span class="badge">S02</span>
+              <span class="phase-tag phase-1">Foundation</span>
+            </div>
+            <h3>Tool Use</h3>
+            <p class="lesson-sub">新增工具时，不重写主循环。</p>
+            <div class="problem"><strong>解决的问题：</strong>如果每加一个工具都改 loop，系统会越来越脆弱。</div>
+            <div class="meta"><span>dispatch map</span><span>schema</span><span>统一入口</span></div>
+            <div class="detail-block">
+              <div class="detail-inner">
+                <div class="detail-panel">
+                  <p><strong>新增机制：</strong>`TOOL_HANDLERS` / dispatch registry，把循环和工具实现解耦。</p>
+                  <p><strong>产出能力：</strong>除了 `bash` 之外，还能扩展 `read_file`、`write_file` 等能力而不破坏主结构。</p>
+                  <p><strong>为什么重要：</strong>没有可扩展工具层，后面的 todo、task、team 都会耦死在一起。</p>
+                </div>
+              </div>
+            </div>
+            <button class="toggle" type="button">展开 / 收起<span>把“会做事”变成可扩展系统</span></button>
+          </article>
+
+          <article class="lesson-card">
+            <div class="lesson-top">
+              <span class="badge">S03</span>
+              <span class="phase-tag phase-1">Foundation</span>
+            </div>
+            <h3>TodoWrite</h3>
+            <p class="lesson-sub">让 agent 先计划，再逐项执行。</p>
+            <div class="problem"><strong>解决的问题：</strong>没有显式计划时，agent 容易跳步、忘事、来回漂移。</div>
+            <div class="meta"><span>外显工作记忆</span><span>任务拆分</span><span>状态勾选</span></div>
+            <div class="detail-block">
+              <div class="detail-inner">
+                <div class="detail-panel">
+                  <p><strong>新增机制：</strong>`TodoWrite` 作为外显工作记忆，让模型把脑内计划显性化。</p>
+                  <p><strong>产出能力：</strong>agent 会先列步骤，再逐步完成，过程更可解释，也更容易 debug。</p>
+                  <p><strong>为什么重要：</strong>从这一课开始，harness 不只是执行器，而是开始管理“工作过程”。</p>
+                </div>
+              </div>
+            </div>
+            <button class="toggle" type="button">展开 / 收起<span>把思考过程结构化</span></button>
+          </article>
+
+          <article class="lesson-card end-row">
+            <div class="lesson-top">
+              <span class="badge">S04</span>
+              <span class="phase-tag phase-1">Foundation</span>
+            </div>
+            <h3>Subagent</h3>
+            <p class="lesson-sub">把大任务拆给独立上下文处理。</p>
+            <div class="problem"><strong>解决的问题：</strong>所有问题塞进一个长对话，会造成上下文污染。</div>
+            <div class="meta"><span>上下文隔离</span><span>子任务回传</span><span>职责切分</span></div>
+            <div class="detail-block">
+              <div class="detail-inner">
+                <div class="detail-panel">
+                  <p><strong>新增机制：</strong>主 agent 通过 `spawn_subagent` 把子问题交给独立 `messages[]` 处理。</p>
+                  <p><strong>产出能力：</strong>复杂问题可以局部求解，再把精简结果带回主线。</p>
+                  <p><strong>为什么重要：</strong>这是多 agent 和 worktree 隔离前，最早的“隔离思维”。</p>
+                </div>
+              </div>
+            </div>
+            <button class="toggle" type="button">展开 / 收起<span>第一次引入隔离边界</span></button>
+          </article>
+
+          <article class="lesson-card">
+            <div class="lesson-top">
+              <span class="badge">S05</span>
+              <span class="phase-tag phase-2">Runtime</span>
+            </div>
+            <h3>Skill Loading</h3>
+            <p class="lesson-sub">按需加载知识，而不是把一切塞进 prompt。</p>
+            <div class="problem"><strong>解决的问题：</strong>system prompt 越来越长，模型会失焦、成本也会上升。</div>
+            <div class="meta"><span>skills/</span><span>按需注入</span><span>知识模块化</span></div>
+            <div class="detail-block">
+              <div class="detail-inner">
+                <div class="detail-panel">
+                  <p><strong>新增机制：</strong>运行时发现并加载 skill 文件，只在需要时把知识交给模型。</p>
+                  <p><strong>产出能力：</strong>agent 不必预装所有知识，而是像工程系统一样按模块组装能力。</p>
+                  <p><strong>为什么重要：</strong>这让 harness 开始具备“上下文预算管理”的意识。</p>
+                </div>
+              </div>
+            </div>
+            <button class="toggle" type="button">展开 / 收起<span>知识不再硬编码进 system prompt</span></button>
+          </article>
+
+          <article class="lesson-card">
+            <div class="lesson-top">
+              <span class="badge">S06</span>
+              <span class="phase-tag phase-2">Runtime</span>
+            </div>
+            <h3>Context Compact</h3>
+            <p class="lesson-sub">上下文终会爆满，必须主动压缩。</p>
+            <div class="problem"><strong>解决的问题：</strong>长对话会拖慢性能、推高成本，还会让模型遗忘关键事实。</div>
+            <div class="meta"><span>摘要层</span><span>保留层</span><span>丢弃层</span></div>
+            <div class="detail-block">
+              <div class="detail-inner">
+                <div class="detail-panel">
+                  <p><strong>新增机制：</strong>对对话进行分层：该保留什么、该摘要什么、该丢弃什么。</p>
+                  <p><strong>产出能力：</strong>即使任务跑得很久，agent 依然能记住目标、约束、已完成事项。</p>
+                  <p><strong>为什么重要：</strong>没有 compact，后面真正长期运行的任务系统会越来越不稳定。</p>
+                </div>
+              </div>
+            </div>
+            <button class="toggle" type="button">展开 / 收起<span>给 runtime 加记忆治理</span></button>
+          </article>
+
+          <article class="lesson-card">
+            <div class="lesson-top">
+              <span class="badge">S07</span>
+              <span class="phase-tag phase-2">Runtime</span>
+            </div>
+            <h3>Task System</h3>
+            <p class="lesson-sub">把目标、依赖、状态持久化到磁盘。</p>
+            <div class="problem"><strong>解决的问题：</strong>单次对话结束后，任务状态就会消失。</div>
+            <div class="meta"><span>.tasks/</span><span>状态流转</span><span>JSON 持久化</span></div>
+            <div class="detail-block">
+              <div class="detail-inner">
+                <div class="detail-panel">
+                  <p><strong>新增机制：</strong>任务实体、依赖关系、状态机和文件化持久层。</p>
+                  <p><strong>产出能力：</strong>关闭进程再启动，agent 仍知道“哪些任务还没做完”。</p>
+                  <p><strong>为什么重要：</strong>从这一步开始，harness 已经是 runtime，而不是一次性脚本。</p>
+                </div>
+              </div>
+            </div>
+            <button class="toggle" type="button">展开 / 收起<span>工作状态第一次具备耐久性</span></button>
+          </article>
+
+          <article class="lesson-card end-row">
+            <div class="lesson-top">
+              <span class="badge">S08</span>
+              <span class="phase-tag phase-2">Runtime</span>
+            </div>
+            <h3>Background Tasks</h3>
+            <p class="lesson-sub">让慢命令去后台，前台 agent 不被阻塞。</p>
+            <div class="problem"><strong>解决的问题：</strong>长时间 shell 命令会卡死整个流程。</div>
+            <div class="meta"><span>后台任务</span><span>轮询回收</span><span>并行思考</span></div>
+            <div class="detail-block">
+              <div class="detail-inner">
+                <div class="detail-panel">
+                  <p><strong>新增机制：</strong>启动后台任务、保存 job 状态、在结果就绪后再回收。</p>
+                  <p><strong>产出能力：</strong>agent 可以一边触发慢任务，一边继续处理别的工作。</p>
+                  <p><strong>为什么重要：</strong>真正的工程 runtime 不能被一个长命令锁死。</p>
+                </div>
+              </div>
+            </div>
+            <button class="toggle" type="button">展开 / 收起<span>runtime 开始有调度感</span></button>
+          </article>
+
+          <article class="lesson-card">
+            <div class="lesson-top">
+              <span class="badge">S09</span>
+              <span class="phase-tag phase-3">Team</span>
+            </div>
+            <h3>Agent Teams</h3>
+            <p class="lesson-sub">一个 agent 不够时，组织成团队。</p>
+            <div class="problem"><strong>解决的问题：</strong>复杂任务单 agent 效率低，上下文也会拥堵。</div>
+            <div class="meta"><span>角色分工</span><span>inbox/outbox</span><span>并行推进</span></div>
+            <div class="detail-block">
+              <div class="detail-inner">
+                <div class="detail-panel">
+                  <p><strong>新增机制：</strong>成员身份、异步邮箱通信、队友持久化状态。</p>
+                  <p><strong>产出能力：</strong>多个 agent 能并行认领不同任务，不再只有一个大脑单线程工作。</p>
+                  <p><strong>为什么重要：</strong>这是从“agent”跨到“team runtime”的门槛。</p>
+                </div>
+              </div>
+            </div>
+            <button class="toggle" type="button">展开 / 收起<span>第一次把单兵变成组织</span></button>
+          </article>
+
+          <article class="lesson-card">
+            <div class="lesson-top">
+              <span class="badge">S10</span>
+              <span class="phase-tag phase-3">Team</span>
+            </div>
+            <h3>Team Protocols</h3>
+            <p class="lesson-sub">团队不是靠喊话，而是靠协议治理。</p>
+            <div class="problem"><strong>解决的问题：</strong>没有统一消息结构时，多 agent 很快会混乱。</div>
+            <div class="meta"><span>request/response</span><span>结构化字段</span><span>可追踪通信</span></div>
+            <div class="detail-block">
+              <div class="detail-inner">
+                <div class="detail-panel">
+                  <p><strong>新增机制：</strong>协议化的请求、回复、确认格式，让协作从“聊天”变成“操作系统接口”。</p>
+                  <p><strong>产出能力：</strong>消息可以追踪、校验、重放，也更适合未来扩展审计与自动化。</p>
+                  <p><strong>为什么重要：</strong>没有协议，团队越大越乱；有协议，协作才可能稳定。</p>
+                </div>
+              </div>
+            </div>
+            <button class="toggle" type="button">展开 / 收起<span>让协作从自然语言走向系统接口</span></button>
+          </article>
+
+          <article class="lesson-card">
+            <div class="lesson-top">
+              <span class="badge">S11</span>
+              <span class="phase-tag phase-3">Team</span>
+            </div>
+            <h3>Autonomous Agents</h3>
+            <p class="lesson-sub">队友自己找活干，而不是等领导逐个指派。</p>
+            <div class="problem"><strong>解决的问题：</strong>所有调度都靠中心节点，会形成瓶颈。</div>
+            <div class="meta"><span>自主认领</span><span>任务池扫描</span><span>自组织</span></div>
+            <div class="detail-block">
+              <div class="detail-inner">
+                <div class="detail-panel">
+                  <p><strong>新增机制：</strong>周期性扫描任务池，根据依赖和角色自主 claim 工作。</p>
+                  <p><strong>产出能力：</strong>多个 agent 可以像一个轻量型工程团队那样自组织运转。</p>
+                  <p><strong>为什么重要：</strong>这一步让系统从“中心派单”走向“自治协作”。</p>
+                </div>
+              </div>
+            </div>
+            <button class="toggle" type="button">展开 / 收起<span>把 bottleneck 从中心调度拿掉</span></button>
+          </article>
+
+          <article class="lesson-card last">
+            <div class="lesson-top">
+              <span class="badge">S12</span>
+              <span class="phase-tag phase-3">Team</span>
+            </div>
+            <h3>Worktree Isolation</h3>
+            <p class="lesson-sub">任务系统管理目标，worktree 管理文件隔离。</p>
+            <div class="problem"><strong>解决的问题：</strong>多 agent 并行改代码时，文件改动会互相污染。</div>
+            <div class="meta"><span>.worktrees/</span><span>任务绑定目录</span><span>并行开发</span></div>
+            <div class="detail-block">
+              <div class="detail-inner">
+                <div class="detail-panel">
+                  <p><strong>新增机制：</strong>每个 task 绑定独立 worktree / workspace，在文件系统层面隔离任务。</p>
+                  <p><strong>产出能力：</strong>多个任务可以并行修改代码，彼此互不踩踏，后续再进入 review / merge 流程。</p>
+                  <p><strong>为什么重要：</strong>这是从“能协作”走向“能真实写代码交付”的关键一步。</p>
+                </div>
+              </div>
+            </div>
+            <button class="toggle" type="button">展开 / 收起<span>把思维隔离升级为代码隔离</span></button>
+          </article>
+        </div>
+      </section>
+
+      <div class="section-head">
+        <div>
+          <h2>毕业项目映射</h2>
+          <p>
+            学完 12 节课之后，最终不是得到一个更会聊天的 bot，而是得到一个真正能组织工程工作的本地 runtime。这也是 `RepoPilot Harness` 的价值所在。
+          </p>
+        </div>
+      </div>
+
+      <section class="graduate-grid">
+        <article class="graduate-card">
+          <h3>最终汇聚成什么？</h3>
+          <p>
+            这 12 节课组合起来，构成了一条非常清晰的工程化主线：
+            `loop` 负责让 agent 动起来，`tools` 负责触达外部世界，`todo` 和 `task system`
+            负责让工作过程可见、可恢复，`background jobs` 负责不阻塞，`teams + protocols + autonomy`
+            负责协作治理，`worktree isolation` 负责把真实代码执行纳入 runtime 边界内。
+          </p>
+          <div class="summary-grid">
+            <div class="summary-box">
+              <h4>运行时层</h4>
+              <p>loop、tool dispatch、context compact、background jobs</p>
+            </div>
+            <div class="summary-box">
+              <h4>工作流层</h4>
+              <p>todo、task system、持久化状态、恢复能力</p>
+            </div>
+            <div class="summary-box">
+              <h4>协作层</h4>
+              <p>subagent、teams、protocols、autonomous claiming</p>
+            </div>
+            <div class="summary-box">
+              <h4>执行隔离层</h4>
+              <p>task-worktree 绑定、并行文件修改、真实产物交付</p>
+            </div>
+          </div>
+        </article>
+
+        <aside class="summary-card">
+          <h3>RepoPilot Harness 对应关系</h3>
+          <ul>
+            <li><strong>S01-S04</strong>：构成最小 agent execution 核心</li>
+            <li><strong>S05-S08</strong>：构成长期运行的 runtime 能力</li>
+            <li><strong>S09-S12</strong>：构成工程协作台的组织与隔离能力</li>
+          </ul>
+          <p>
+            所以毕业项目不该只是一个 CLI demo，也不该只是一个聊天界面。更硬的方向，是像 `RepoPilot Harness` 这样，把“自然语言需求 → 任务拆解 → agent 协作 → 隔离执行 → 验证交付”全都纳入一个产品化控制台里。
+          </p>
+          <p class="footer-note">
+            对应文档：`docs/course-outline-zh.md`、`docs/course-graduation-review-zh.md`、`products/repopilot_harness/README.md`
+          </p>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      const cards = document.querySelectorAll('.lesson-card');
+      cards.forEach((card) => {
+        const button = card.querySelector('.toggle');
+        button.addEventListener('click', () => {
+          const open = card.getAttribute('data-open') === 'true';
+          card.setAttribute('data-open', String(!open));
+        });
+      });
+    </script>
+  </body>
+</html>
