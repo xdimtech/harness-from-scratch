@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RepoPilot Console</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Harness Engineering for Real Agents</p>
+          <h1>RepoPilot Console</h1>
+          <p class="subhead">
+            Trigger a real mission, watch autonomous lanes claim tasks, and inspect
+            worktree artifacts as they land.
+          </p>
+        </div>
+        <form id="mission-form" class="mission-form">
+          <label for="mission-input">Mission</label>
+          <textarea id="mission-input" rows="3" placeholder="Example: Build a prototype task lane with Python artifacts, validation checks, and operator docs."></textarea>
+          <div class="mission-actions">
+            <button type="submit" id="start-btn">Start Run</button>
+            <span id="form-status"></span>
+          </div>
+        </form>
+      </header>
+
+      <section class="overview" id="overview"></section>
+
+      <main class="board-grid">
+        <section class="panel task-board">
+          <div class="panel-head">
+            <h2>Task Board</h2>
+            <select id="run-select"></select>
+          </div>
+          <div id="task-columns" class="task-columns"></div>
+        </section>
+
+        <section class="panel timeline-panel">
+          <div class="panel-head">
+            <h2>Run Timeline</h2>
+            <span class="muted">Live event stream</span>
+          </div>
+          <div id="timeline" class="timeline"></div>
+        </section>
+
+        <section class="panel agents-panel">
+          <div class="panel-head">
+            <h2>Agents</h2>
+            <span class="muted">Lead + autonomous lanes</span>
+          </div>
+          <div id="agents" class="agents"></div>
+        </section>
+
+        <section class="panel worktrees-panel">
+          <div class="panel-head">
+            <h2>Worktrees</h2>
+            <span class="muted">Isolated execution lanes</span>
+          </div>
+          <div id="worktrees" class="worktrees"></div>
+        </section>
+
+        <section class="panel jobs-panel">
+          <div class="panel-head">
+            <h2>Background Jobs</h2>
+            <span class="muted">Validation and compile runs</span>
+          </div>
+          <div id="jobs" class="jobs"></div>
+        </section>
+
+        <section class="panel file-panel">
+          <div class="panel-head">
+            <h2>Artifact Viewer</h2>
+            <span id="file-meta" class="muted">Select a file from a worktree</span>
+          </div>
+          <div class="artifact-layout">
+            <div id="artifact-list" class="artifact-list"></div>
+            <pre id="file-content" class="file-content">No file selected.</pre>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/assets/app.js" defer></script>
+  </body>
+</html>

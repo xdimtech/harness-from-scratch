@@ -1,0 +1,544 @@
+:root {
+  --bg: #f3efe7;
+  --panel: rgba(255, 252, 247, 0.92);
+  --panel-strong: rgba(255, 251, 245, 0.98);
+  --ink: #1e272b;
+  --muted: #5b696f;
+  --line: rgba(24, 39, 43, 0.12);
+  --teal: #0f6a63;
+  --teal-deep: #184948;
+  --clay: #b86f37;
+  --rose: #b54d58;
+  --gold: #c48d25;
+  --shadow: 0 26px 60px rgba(47, 38, 17, 0.12);
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(15, 106, 99, 0.14), transparent 24%),
+    radial-gradient(circle at 90% 10%, rgba(184, 111, 55, 0.12), transparent 22%),
+    linear-gradient(180deg, #f8f3ea 0%, #eee8db 100%);
+  font-family: "Avenir Next", "Trebuchet MS", sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+code {
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+}
+
+.app-shell {
+  width: min(1800px, calc(100vw - 28px));
+  margin: 14px auto;
+  display: grid;
+  grid-template-columns: 400px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.sidebar,
+.workspace {
+  min-width: 0;
+}
+
+.sidebar {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+.brand,
+.panel,
+.hero-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.brand {
+  padding: 24px;
+}
+
+.panel,
+.hero-card {
+  padding: 18px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+  color: var(--teal);
+}
+
+.sidebar-copy,
+.hero-copy,
+.muted,
+.hint {
+  color: var(--muted);
+}
+
+.hint {
+  margin: -2px 0 0;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.panel-head,
+.hero-actions,
+.form-actions {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stack-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+}
+
+label span {
+  font-size: 13px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  background: var(--panel-strong);
+  color: var(--ink);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 92px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+button.primary,
+#create-run-btn {
+  background: linear-gradient(135deg, var(--teal), var(--teal-deep));
+  color: white;
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+button.ghost {
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 12px 16px;
+  border-radius: 999px;
+}
+
+button.secondary {
+  background: #dcefe9;
+  color: var(--teal-deep);
+  border: 1px solid rgba(15, 106, 99, 0.14);
+  border-radius: 999px;
+  padding: 8px 12px;
+}
+
+button.plain {
+  background: transparent;
+  color: var(--teal-deep);
+  padding: 0;
+  text-align: left;
+}
+
+button:disabled {
+  opacity: 0.58;
+  cursor: wait;
+}
+
+.runs-list,
+.timeline,
+.jobs-list,
+.worktree-list,
+.artifact-list,
+.agents-grid,
+.task-detail,
+.run-meta {
+  margin-top: 12px;
+}
+
+.run-item,
+.task-card,
+.event-card,
+.agent-card,
+.job-card,
+.worktree-card,
+.artifact-item,
+.stat-card,
+.detail-block {
+  background: var(--panel-strong);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.run-item,
+.agent-card,
+.job-card,
+.worktree-card,
+.artifact-item,
+.stat-card,
+.detail-block {
+  padding: 12px;
+}
+
+.run-item {
+  width: 100%;
+  text-align: left;
+}
+
+.run-item + .run-item,
+.event-card + .event-card,
+.agent-card + .agent-card,
+.job-card + .job-card,
+.worktree-card + .worktree-card,
+.artifact-item + .artifact-item,
+.detail-block + .detail-block {
+  margin-top: 10px;
+}
+
+.run-item.active,
+.task-card.active,
+.artifact-item.active,
+.worktree-card.active {
+  outline: 2px solid rgba(15, 106, 99, 0.28);
+}
+
+.workspace {
+  display: grid;
+  gap: 18px;
+}
+
+.hero-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.hero-actions {
+  justify-content: flex-end;
+}
+
+.run-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.stat-card {
+  min-height: 104px;
+}
+
+.stat-label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.stat-value {
+  margin-top: 10px;
+  font-size: 32px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.workspace-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.board-panel { grid-column: span 7; }
+.detail-panel { grid-column: span 5; }
+.timeline-panel { grid-column: span 5; }
+.jobs-panel { grid-column: span 4; }
+.worktrees-panel { grid-column: span 3; }
+.agents-panel { grid-column: span 3; }
+.inspector-panel { grid-column: span 12; }
+
+.task-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.task-column {
+  background: rgba(255, 248, 238, 0.68);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  min-height: 320px;
+}
+
+.task-column h3 {
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.task-card {
+  padding: 12px;
+  width: 100%;
+  text-align: left;
+}
+
+.task-card + .task-card {
+  margin-top: 10px;
+}
+
+.card-title,
+.job-title,
+.worktree-title,
+.agent-title,
+.detail-title {
+  font-weight: 700;
+}
+
+.card-meta,
+.inline-meta,
+.job-meta,
+.worktree-meta,
+.event-meta,
+.detail-meta {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.inline-meta {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(15, 106, 99, 0.1);
+  color: var(--teal-deep);
+}
+
+.badge.failed,
+.badge.blocked,
+.badge.timeout,
+.badge.error {
+  background: rgba(181, 77, 88, 0.14);
+  color: var(--rose);
+}
+
+.badge.completed,
+.badge.idle,
+.badge.active {
+  background: rgba(15, 106, 99, 0.14);
+  color: var(--teal);
+}
+
+.badge.review_required,
+.badge.validating,
+.badge.planned,
+.badge.paused {
+  background: rgba(196, 141, 37, 0.16);
+  color: var(--gold);
+}
+
+.badge.running,
+.badge.claimed,
+.badge.executing,
+.badge.ready,
+.badge.approved,
+.badge.queued {
+  background: rgba(15, 106, 99, 0.12);
+  color: var(--teal);
+}
+
+.timeline,
+.jobs-list,
+.worktree-list,
+.agents-grid,
+.artifact-list {
+  max-height: 520px;
+  overflow: auto;
+}
+
+.event-card,
+.task-detail {
+  padding: 12px;
+}
+
+.task-detail {
+  max-height: 640px;
+  overflow: auto;
+}
+
+.task-detail ul,
+.job-card pre {
+  margin: 8px 0 0;
+}
+
+.inspector-layout {
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.file-content {
+  margin: 0;
+  min-height: 560px;
+  max-height: 560px;
+  overflow: auto;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: #202729;
+  color: #f1eee7;
+  font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.empty,
+.empty-state {
+  color: var(--muted);
+}
+
+@media (max-width: 1450px) {
+  .stats-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .workspace-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .board-panel,
+  .detail-panel,
+  .timeline-panel,
+  .jobs-panel,
+  .worktrees-panel,
+  .agents-panel,
+  .inspector-panel {
+    grid-column: span 6;
+  }
+
+  .task-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1180px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card {
+    flex-direction: column;
+  }
+
+  .stats-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .inspector-layout,
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    width: min(100vw - 16px, 100%);
+    margin: 8px auto;
+  }
+
+  .workspace-grid,
+  .stats-row,
+  .task-board {
+    grid-template-columns: 1fr;
+  }
+
+  .board-panel,
+  .detail-panel,
+  .timeline-panel,
+  .jobs-panel,
+  .worktrees-panel,
+  .agents-panel,
+  .inspector-panel {
+    grid-column: span 1;
+  }
+}

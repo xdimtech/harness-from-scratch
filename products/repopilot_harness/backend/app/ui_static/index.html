@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RepoPilot Harness</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <p class="eyebrow">Harness Engineering</p>
+          <h1>RepoPilot Harness</h1>
+          <p class="sidebar-copy">
+            A local-first engineering control room for turning software requests into
+            planned runs, isolated workspaces, real execution, validation, and delivery.
+          </p>
+        </div>
+
+        <section class="panel intake-panel">
+          <div class="panel-head">
+            <h2>Mission Intake</h2>
+            <span class="muted">Plan -> approve -> execute</span>
+          </div>
+          <form id="run-form" class="stack-form">
+            <label>
+              <span>Repository Path</span>
+              <input id="repo-root" type="text" placeholder="/path/to/repository" />
+            </label>
+            <label>
+              <span>Mission</span>
+              <textarea id="mission" rows="5" placeholder="Example: Build a production-grade engineering console with task orchestration, isolated workspaces, agent execution, and validation gates."></textarea>
+            </label>
+            <label>
+              <span>Operator Constraints</span>
+              <textarea id="constraints" rows="4" placeholder="Example: keep implementation under products/repopilot_harness, do not touch course lesson scripts, prefer Python + vanilla JS."></textarea>
+            </label>
+            <div class="two-col">
+              <label>
+                <span>Execution Mode</span>
+                <select id="execution-mode">
+                  <option value="direct_llm">RepoPilot direct agent</option>
+                  <option value="agent_command">External agent command</option>
+                  <option value="scaffold">Scaffold only (no coding agent)</option>
+                </select>
+              </label>
+              <label>
+                <span>Agent Timeout (sec)</span>
+                <input id="agent-timeout" type="number" min="60" step="60" value="900" />
+              </label>
+            </div>
+            <label>
+              <span>Agent Command</span>
+              <textarea id="agent-command" rows="4" placeholder="Example: codex exec --full-auto \"$(cat \"$REPOPILOT_PROMPT_FILE\")\""></textarea>
+            </label>
+            <p class="hint">
+              Used only for <code>External agent command</code>. The command runs inside each implementation workspace. Environment variables:
+              <code>REPOPILOT_PROMPT_FILE</code>, <code>REPOPILOT_TASK_FILE</code>,
+              <code>REPOPILOT_WORKTREE</code>.
+            </p>
+            <p class="hint" id="execution-note">
+              RepoPilot should use a real coding agent here. Scaffold mode is only for debugging the harness flow.
+            </p>
+            <label>
+              <span>Validation Commands</span>
+              <textarea id="validation" rows="3" placeholder="One command per line. Leave blank to auto-detect defaults."></textarea>
+            </label>
+            <div class="form-actions">
+              <button type="submit" id="create-run-btn">Create Planned Run</button>
+              <div id="form-status" class="muted"></div>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel runs-panel">
+          <div class="panel-head">
+            <h2>Runs</h2>
+            <span class="muted">Recent missions</span>
+          </div>
+          <div id="runs-list" class="runs-list"></div>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <section class="hero-card">
+          <div>
+            <p class="eyebrow">Operator Console</p>
+            <h2 id="run-title">Select or create a run</h2>
+            <p id="run-summary" class="hero-copy">
+              Review the generated task graph, approve execution, and inspect jobs,
+              workspaces, artifacts, and files from one place.
+            </p>
+            <div id="run-meta" class="run-meta"></div>
+          </div>
+          <div class="hero-actions">
+            <button id="approve-run-btn" class="primary" disabled>Approve & Execute</button>
+            <button id="pause-run-btn" class="ghost" disabled>Pause Dispatch</button>
+          </div>
+        </section>
+
+        <section class="stats-row" id="stats-row"></section>
+
+        <div class="workspace-grid">
+          <section class="panel board-panel">
+            <div class="panel-head">
+              <h2>Task Board</h2>
+              <span class="muted">Click a task for details</span>
+            </div>
+            <div id="task-board" class="task-board"></div>
+          </section>
+
+          <section class="panel detail-panel">
+            <div class="panel-head">
+              <h2>Task Detail</h2>
+              <span id="task-detail-meta" class="muted">Select a task</span>
+            </div>
+            <div id="task-detail" class="task-detail empty-state">No task selected.</div>
+          </section>
+
+          <section class="panel timeline-panel">
+            <div class="panel-head">
+              <h2>Event Timeline</h2>
+              <span class="muted">Durable event stream</span>
+            </div>
+            <div id="timeline" class="timeline"></div>
+          </section>
+
+          <section class="panel jobs-panel">
+            <div class="panel-head">
+              <h2>Jobs</h2>
+              <span class="muted">Execution + validation logs</span>
+            </div>
+            <div id="jobs" class="jobs-list"></div>
+          </section>
+
+          <section class="panel worktrees-panel">
+            <div class="panel-head">
+              <h2>Workspaces</h2>
+              <span class="muted">Isolated task environments</span>
+            </div>
+            <div id="worktrees" class="worktree-list"></div>
+          </section>
+
+          <section class="panel agents-panel">
+            <div class="panel-head">
+              <h2>Agents</h2>
+              <span class="muted">Runtime workers</span>
+            </div>
+            <div id="agents" class="agents-grid"></div>
+          </section>
+
+          <section class="panel inspector-panel">
+            <div class="panel-head">
+              <h2>Artifacts & Files</h2>
+              <span id="inspector-meta" class="muted">Select an artifact or workspace file</span>
+            </div>
+            <div class="inspector-layout">
+              <div>
+                <div id="artifact-list" class="artifact-list"></div>
+              </div>
+              <pre id="file-content" class="file-content">No file selected.</pre>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="/assets/app.js" defer></script>
+  </body>
+</html>
